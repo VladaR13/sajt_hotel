@@ -93,31 +93,31 @@ if (isset($_POST['register'])) {
 
 <!--Kontejner -->
 <div class="container mx-auto">
-    <form action="../login/login.php" name="Forma">
+    <form action="register.php"  method="POST">
       <div class="w-5/6 lg:w-1/2 mx-auto bg-white rounded shadow-xl">
             <div class="py-4 px-8 text-black text-xl border-b border-grey-lighter">Registracija naloga</div>
             <div class="py-4 px-8">
                 <div class="flex mb-4">
                     <div class="w-1/2 mr-1">
                         <label class="block text-grey-darker text-sm font-bold mb-2" for="first_name">Ime</label>
-                        <input class="appearance-none border rounded w-full py-2 px-3 text-grey-darker" id="first_name" type="text" placeholder="Unesite vase ime">
+                        <input class="appearance-none border rounded w-full py-2 px-3 text-grey-darker" id="first_name" type="text" placeholder="Unesite vase ime" name="ime">
                     </div>
                     <div class="w-1/2 ml-1">
                         <label class="block text-grey-darker text-sm font-bold mb-2" for="last_name">Prezime</label>
-                        <input class="appearance-none border rounded w-full py-2 px-3 text-grey-darker" id="last_name" type="text" placeholder="Unesite vase prezime">
+                        <input class="appearance-none border rounded w-full py-2 px-3 text-grey-darker" id="last_name" type="text" placeholder="Unesite vase prezime" name="prezime">
                     </div>
                 </div>
                 <div class="mb-4">
                     <label class="block text-grey-darker text-sm font-bold mb-2" for="email">Email adresa</label>
-                    <input class="appearance-none border rounded w-full py-2 px-3 text-grey-darker" id="email" type="email" placeholder="Vasa email adresa">
+                    <input class="appearance-none border rounded w-full py-2 px-3 text-grey-darker" id="email" type="email" placeholder="Vasa email adresa" name="email">
                 </div>
                 <div class="mb-4">
                     <label class="block text-grey-darker text-sm font-bold mb-2" for="email">Broj telefona</label>
-                    <input class="appearance-none border rounded w-full py-2 px-3 text-grey-darker" id="telefon" type="tel" placeholder="Vas broj telefona">
+                    <input class="appearance-none border rounded w-full py-2 px-3 text-grey-darker" id="telefon" type="tel" placeholder="Vas broj telefona" name="telefon">
                 </div>
                 <div class="mb-4">
                     <label class="block text-grey-darker text-sm font-bold mb-2" for="password">Lozinka</label>
-                    <input class="appearance-none border rounded w-full py-2 px-3 text-grey-darker" id="password" type="password" placeholder="Unesite vasu lozinku">
+                    <input class="appearance-none border rounded w-full py-2 px-3 text-grey-darker" id="password" type="password" placeholder="Unesite vasu lozinku" name="lozinka">
                     <p class="text-grey text-xs mt-1">Najmanje 8 karaktera</p>
                 </div>
                 <div class="mb-4">
@@ -126,7 +126,7 @@ if (isset($_POST['register'])) {
                     <p class="text-grey text-xs mt-1">Najmanje 8 karaktera</p>
                 </div>
                 <div class="flex items-center justify-between mt-8">
-                    <button class="bg-blue-900 hover:bg-blue-dark-400 text-white font-bold py-2 px-4 rounded-full" type="submit">
+                    <button class="bg-blue-900 hover:bg-blue-dark-400 text-white font-bold py-2 px-4 rounded-full" type="submit" name="register">
                         Registrujte nalog
                     </button>
                 </div>
