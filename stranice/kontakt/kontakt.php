@@ -1,3 +1,10 @@
+<?php 
+session_start();
+
+
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -47,9 +54,7 @@
 </nav>
 
 <div class="container">
-<h1>VLADA</h1>
 
-</div>
 
 </body>
 </html>

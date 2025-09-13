@@ -5,14 +5,13 @@ session_start();
 
 
 ?>
-
 <!DOCTYPE html>
 <html lang="sr">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pocetna stranica - Hotel rezervacija</title>
+    <title>Hoteli - Hotel rezervacija</title>
     <link rel="stylesheet" href="css/style.css">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     
@@ -55,7 +54,7 @@ session_start();
 
 <!--Kontejner -->
 <div class="container mx-auto">
-    <div class="flex justify-center items-center h-screen bg-[url('https://e7.pngegg.com/pngimages/978/439/png-clipart-online-hotel-reservations-travel-uzungol-booking-com-hotel-booking-business-bed-and-breakfast-thumbnail.png')]" >
+    <div class="flex justify-center items-center h-screen bg-[url(img/1.jpg)]" >
         <p class="text-2xl font-bold text-blue-600 hover:text-blue-800">Dobrodošli na sajt hotel rezervacija!</p>
     </div>
 
