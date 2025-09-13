@@ -1,8 +1,44 @@
 <?php 
 //Konekcija baze 
+session_start();
 require("../../baza.php");
 
+if (isset($_POST['register'])) {
+    $ime = $_POST['ime'];
+    $prezime = $_POST['prezime'];
+    $email = $_POST['email'];
+    $lozinka = $_POST['lozinka'];
+    $telefon = $_POST['telefon'];
 
+    // Sigurnije čuvanje lozinke
+    $hashed_password = password_hash($lozinka, PASSWORD_DEFAULT);
+
+    // Provera da li email već postoji
+    $check = $conn->prepare("SELECT * FROM korisnik WHERE email=?");
+    $check->bind_param("s", $email);
+    $check->execute();
+    $result = $check->get_result();
+
+    if ($result->num_rows > 0) {
+        echo "Email je već registrovan!";
+    } else {
+        // Ubacivanje korisnika u bazu
+        $stmt = $conn->prepare("INSERT INTO korisnik (ime, prezime, email, lozinka, telefon) 
+                                VALUES (?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssss", $ime, $prezime, $email, $hashed_password, $telefon);
+
+        if ($stmt->execute()) {
+            echo "Uspešno ste se registrovali!";
+            // automatsko logovanje posle registracije
+            $_SESSION['korisnik_id'] = $stmt->insert_id;
+            $_SESSION['ime'] = $ime;
+            header("Location: index.php"); // preusmeri na početnu ili panel
+            exit();
+        } else {
+            echo "Greška pri registraciji: " . $stmt->error;
+        }
+    }
+}
 
 
 
@@ -24,7 +60,7 @@ require("../../baza.php");
     <nav class="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
   <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
   <a href="index.php" class="flex items-center space-x-3 rtl:space-x-reverse">
-      <img src="img/logo.png" class="h-8" alt="Hotel Logo">
+      <img src="https://www.logodesign.net/logo/line-art-buildings-in-swoosh-1273ld.png?nwm=1&nws=1&industry=hotel&sf=&txt_keyword=All" class="h-8" alt="Hotel Logo">
       <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Hotel rezervacija</span>
   </a>
   <div class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
@@ -57,8 +93,9 @@ require("../../baza.php");
 
 <!--Kontejner -->
 <div class="container mx-auto">
+    <form action="../login/login.php" name="Forma">
       <div class="w-5/6 lg:w-1/2 mx-auto bg-white rounded shadow-xl">
-            <div class="py-4 px-8 text-black text-xl border-b border-grey-lighter">Registracija</div>
+            <div class="py-4 px-8 text-black text-xl border-b border-grey-lighter">Registracija naloga</div>
             <div class="py-4 px-8">
                 <div class="flex mb-4">
                     <div class="w-1/2 mr-1">
@@ -75,8 +112,17 @@ require("../../baza.php");
                     <input class="appearance-none border rounded w-full py-2 px-3 text-grey-darker" id="email" type="email" placeholder="Vasa email adresa">
                 </div>
                 <div class="mb-4">
+                    <label class="block text-grey-darker text-sm font-bold mb-2" for="email">Broj telefona</label>
+                    <input class="appearance-none border rounded w-full py-2 px-3 text-grey-darker" id="telefon" type="tel" placeholder="Vas broj telefona">
+                </div>
+                <div class="mb-4">
                     <label class="block text-grey-darker text-sm font-bold mb-2" for="password">Lozinka</label>
                     <input class="appearance-none border rounded w-full py-2 px-3 text-grey-darker" id="password" type="password" placeholder="Unesite vasu lozinku">
+                    <p class="text-grey text-xs mt-1">Najmanje 8 karaktera</p>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-grey-darker text-sm font-bold mb-2" for="password">Potvrda lozinke</label>
+                    <input class="appearance-none border rounded w-full py-2 px-3 text-grey-darker" id="checkpassword" type="password" placeholder="Unesite vasu lozinku">
                     <p class="text-grey text-xs mt-1">Najmanje 8 karaktera</p>
                 </div>
                 <div class="flex items-center justify-between mt-8">
@@ -86,6 +132,7 @@ require("../../baza.php");
                 </div>
             </div>
         </div>
+        </form>
         <p class="text-center my-4">
             <a href="../login/login.php" class="text-grey-dark text-sm no-underline hover:text-grey-darker">Vec imam nalog.</a>
         </p>
@@ -122,5 +169,8 @@ require("../../baza.php");
         <span class="block text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2025 <a href="index.php" class="hover:underline">Hotel rezervacija™</a>. Sva prava zadrzava vlasnik sajta.</span>
     </div>
 </footer>
+
+<script src="../../js/lozinka_verifikacija.js"></script>
+
 </body>
 </html>
