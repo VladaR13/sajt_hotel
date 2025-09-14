@@ -21,7 +21,7 @@ if(!isset($_SESSION['korisnik_id']) || $_SESSION['uloga'] != 'admin'){
 
 <nav class="bg-white shadow p-4 flex justify-between items-center">
     <h1 class="text-xl font-bold">Admin Dashboard</h1>
-    <form method="post" action="../logout.php">
+    <form method="post" action="../stranice/logout.php">
         <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">Odjavi se</button>
     </form>
 </nav>

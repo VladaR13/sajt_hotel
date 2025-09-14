@@ -7,7 +7,7 @@ if(!isset($_SESSION['korisnik_id']) || $_SESSION['uloga'] != 'admin'){
     exit();
 }
 
-$result = $conn->query("SELECT * FROM hotel ORDER BY hotel_id DESC");
+$result = $conn->query("SELECT * FROM hoteli ORDER BY hotel_id DESC");
 ?>
 
 <!DOCTYPE html>

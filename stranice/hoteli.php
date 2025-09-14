@@ -1,48 +1,6 @@
 <?php
 session_start();
 require("../baza.php");
-
-
-if (!isset($_SESSION['korisnik_id']) || $_SESSION['uloga'] != 'admin') {
-    header("Location: login.php"); // ili gde hoces da preusmeris
-    exit();
-}
-
-
-
-
-
-
-// Provera da li je korisnik ulogovan
-if(!isset($_SESSION['korisnik_id'])){
-    header("Location: login.php");
-    exit();
-}
-
-$korisnik_id = $_SESSION['korisnik_id'];
-
-// Dohvatanje svih hotela
-$hoteli = $conn->query("SELECT * FROM hoteli ORDER BY naziv ASC");
-
-// Poruka za rezervaciju
-$poruka = "";
-
-// Dodavanje rezervacije
-if(isset($_POST['rezervisi'])){
-    $hotel_id = intval($_POST['hotel_id']);
-    $datum_od = $_POST['datum_od'];
-    $datum_do = $_POST['datum_do'];
-    $broj_gostiju = intval($_POST['broj_gostiju']);
-
-    $stmt = $conn->prepare("INSERT INTO rezervacije (korisnik_id, hotel_id, datum_od, datum_do, broj_gostiju) VALUES (?, ?, ?, ?, ?)");
-    $stmt->bind_param("iissi", $korisnik_id, $hotel_id, $datum_od, $datum_do, $broj_gostiju);
-
-    if($stmt->execute()){
-        $poruka = "Rezervacija je uspešno izvršena!";
-    } else {
-        $poruka = "Došlo je do greške prilikom rezervacije.";
-    }
-}
 ?>
 
 <!DOCTYPE html>
@@ -54,41 +12,38 @@ if(isset($_POST['rezervisi'])){
 </head>
 <body class="bg-gray-100">
 
-<div class="container mx-auto mt-10 max-w-4xl">
+<div class="container mx-auto mt-10">
     <h1 class="text-2xl font-bold mb-6">Lista hotela</h1>
 
-    <?php if(!empty($poruka)): ?>
-        <div class="mb-4 p-3 bg-green-100 text-green-700 rounded"><?= $poruka ?></div>
+    <?php if(isset($_SESSION['uloga']) && $_SESSION['uloga'] === 'admin'): ?>
+        <a href="dodaj_hotel.php" class="bg-blue-600 text-white px-4 py-2 rounded mb-4 inline-block">Dodaj Hotel</a>
     <?php endif; ?>
-<nav>
-  <?php if(isset($_SESSION['uloga'])&& $_SESSION['uloga']=='admin'):?>
-    <a href="../admin/admin_dashboard.php" class="px-4 py-2 bg-gray-700 text-white rounded hover:bg-gray-800">Dashboard</a>
-    <?php endif;?>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <?php while($h = $hoteli->fetch_assoc()): ?>
-            <div class="bg-white rounded shadow p-4">
-                <h2 class="text-xl font-semibold"><?= htmlspecialchars($h['naziv']) ?></h2>
-                <p class="text-gray-700"><?= htmlspecialchars($h['lokacija']) ?></p>
-                <form method="POST" class="mt-3 space-y-2">
-                    <input type="hidden" name="hotel_id" value="<?= $h['hotel_id'] ?>" />
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Datum dolaska</label>
-                        <input type="date" name="datum_od" required class="w-full border rounded px-2 py-1">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Datum odlaska</label>
-                        <input type="date" name="datum_do" required class="w-full border rounded px-2 py-1">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Broj gostiju</label>
-                        <input type="number" name="broj_gostiju" min="1" max="10" required class="w-full border rounded px-2 py-1">
-                    </div>
-                    <button type="submit" name="rezervisi" class="mt-2 w-full bg-blue-600 text-white rounded px-3 py-1 hover:bg-blue-700">Rezerviši</button>
-                </form>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        <?php
+        $result = $conn->query("SELECT * FROM hoteli ORDER BY naziv ASC");
+        while($hotel = $result->fetch_assoc()):
+        ?>
+        <div class="bg-white rounded shadow overflow-hidden">
+            <img src="../uploads/<?= htmlspecialchars($hotel['slika']) ?>" alt="<?= htmlspecialchars($hotel['naziv']) ?>" class="w-full h-48 object-cover">
+            <div class="p-4">
+                <h2 class="text-xl font-semibold"><?= htmlspecialchars($hotel['naziv']) ?></h2>
+                <p><?= htmlspecialchars($hotel['lokacija']) ?> | <?= $hotel['zvezdice'] ?> ★ | <?= $hotel['cena'] ?> RSD/noć</p>
+                <p class="mt-2"><?= htmlspecialchars($hotel['opis']) ?></p>
+
+                <div class="mt-4 flex space-x-2">
+                    <a href="rezervacija.php?hotel_id=<?= $hotel['hotel_id'] ?>" class="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700">Rezerviši</a>
+
+                    <?php if(isset($_SESSION['uloga']) && $_SESSION['uloga'] === 'admin'): ?>
+                        <a href="izmeni_hotel.php?hotel_id=<?= $hotel['hotel_id'] ?>" class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600">Izmeni</a>
+                        <a href="obrisi_hotel.php?hotel_id=<?= $hotel['hotel_id'] ?>" class="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700" onclick="return confirm('Da li ste sigurni?')">Obriši</a>
+                    <?php endif; ?>
+                </div>
             </div>
+        </div>
         <?php endwhile; ?>
     </div>
 </div>
-</nav>
+
 </body>
 </html>

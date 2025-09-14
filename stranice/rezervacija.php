@@ -3,13 +3,13 @@ session_start();
 require("../baza.php");
 
 // Provera da li je korisnik ulogovan
-if(!isset($_SESSION['korisnik_id'])){
+if (!isset($_SESSION['korisnik_id'])) {
     header("Location: login.php");
     exit();
 }
 
 // Dohvatanje ID hotela iz GET parametra
-if(!isset($_GET['hotel_id'])){
+if (!isset($_GET['hotel_id'])) {
     echo "Hotel nije odabran.";
     exit();
 }
@@ -22,7 +22,7 @@ $stmt->bind_param("i", $hotel_id);
 $stmt->execute();
 $hotel = $stmt->get_result()->fetch_assoc();
 
-if(!$hotel){
+if (!$hotel) {
     echo "Hotel nije pronađen.";
     exit();
 }
@@ -30,43 +30,45 @@ if(!$hotel){
 $poruka = "";
 
 // Obrada forme rezervacije
-if(isset($_POST['rezervisi'])){
+if (isset($_POST['rezervisi'])) {
     $datum_od = $_POST['datum_od'];
     $datum_do = $_POST['datum_do'];
     $broj_gostiju = intval($_POST['broj_gostiju']);
 
-    // Jednostavna validacija datuma
-    if($datum_od >= $datum_do){
-        $poruka = "Datum od mora biti pre datuma do.";
+    // Validacija datuma
+    if ($datum_od >= $datum_do) {
+        $poruka = "❌ Datum od mora biti pre datuma do.";
     } else {
-        $stmt = $conn->prepare("INSERT INTO rezervacije (korisnik_id, hotel_id, datum_od, datum_do, broj_gostiju) VALUES (?,?,?,?,?)");
+        $stmt = $conn->prepare("INSERT INTO rezervacije (korisnik_id, hotel_id, datum_od, datum_do, broj_gostiju, status) VALUES (?,?,?,?,?, 'na_cekanju')");
         $stmt->bind_param("iissi", $_SESSION['korisnik_id'], $hotel_id, $datum_od, $datum_do, $broj_gostiju);
-        if($stmt->execute()){
-            $poruka = "Rezervacija je uspešno kreirana!";
+
+        if ($stmt->execute()) {
+            $poruka = "✅ Rezervacija je uspešno kreirana! Čeka odobrenje administratora.";
         } else {
-            $poruka = "Došlo je do greške, pokušajte ponovo.";
+            $poruka = "❌ Došlo je do greške: " . $stmt->error;
         }
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="sr">
 <head>
-<meta charset="UTF-8">
-<title>Rezervacija - <?= htmlspecialchars($hotel['naziv']) ?></title>
-<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <title>Rezervacija - <?= htmlspecialchars($hotel['naziv']) ?></title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body class="bg-gray-100">
 
 <div class="container mx-auto mt-10 max-w-lg bg-white p-6 rounded shadow">
     <h1 class="text-2xl font-bold mb-4"><?= htmlspecialchars($hotel['naziv']) ?></h1>
-    <p>Lokacija: <?= htmlspecialchars($hotel['lokacija']) ?></p>
-    <p>Zvezdice: <?= $hotel['zvezdice'] ?></p>
-    <p>Cena po noći: <?= $hotel['cena'] ?> RSD</p>
+    <p><strong>Lokacija:</strong> <?= htmlspecialchars($hotel['lokacija']) ?></p>
+    <p><strong>Zvezdice:</strong> <?= $hotel['zvezdice'] ?></p>
+    <p><strong>Cena po noći:</strong> <?= number_format($hotel['cena'], 0, ",", ".") ?> RSD</p>
 
-    <?php if(!empty($poruka)): ?>
-        <div class="mt-4 p-3 bg-green-100 text-green-700 rounded"><?= $poruka ?></div>
+    <?php if (!empty($poruka)): ?>
+        <div class="mt-4 p-3 <?= strpos($poruka, '✅') !== false ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700' ?> rounded">
+            <?= $poruka ?>
+        </div>
     <?php endif; ?>
 
     <form method="POST" class="mt-6 space-y-4">

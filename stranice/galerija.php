@@ -30,7 +30,7 @@ $admin = isset($_SESSION['uloga']) && $_SESSION['uloga'] === 'admin';
                     <button type="submit" name="logout" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded">Odjavi se</button>
                 </form>
             <?php else: ?>
-                <a href="../login.php" class="bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded">Prijavi se</a>
+                <a href="login.php" class="bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded">Prijavi se</a>
             <?php endif; ?>
         </div>
     </div>
