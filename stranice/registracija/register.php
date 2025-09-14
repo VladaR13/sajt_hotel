@@ -9,7 +9,7 @@ if (isset($_POST['register'])) {
     $email = $_POST['email'];
     $lozinka = $_POST['lozinka'];
     $telefon = $_POST['telefon'];
-
+    $uloga = "korisnik";
     // Sigurnije čuvanje lozinke
     $hashed_password = password_hash($lozinka, PASSWORD_DEFAULT);
 
@@ -23,9 +23,9 @@ if (isset($_POST['register'])) {
         echo "Email je već registrovan!";
     } else {
         // Ubacivanje korisnika u bazu
-        $stmt = $conn->prepare("INSERT INTO korisnik (ime, prezime, email, lozinka, telefon) 
-                                VALUES (?, ?, ?, ?, ?)");
-        $stmt->bind_param("sssss", $ime, $prezime, $email, $hashed_password, $telefon);
+        $stmt = $conn->prepare("INSERT INTO korisnik (ime, prezime, email, lozinka, telefon, uloga) 
+                                VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("ssssss", $ime, $prezime, $email, $hashed_password, $telefon, $uloga);
 
         if ($stmt->execute()) {
             echo "Uspešno ste se registrovali!";

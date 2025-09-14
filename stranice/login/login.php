@@ -1,10 +1,9 @@
 <?php 
-//Konekcija baze 
 session_start();
-
 require("../../baza.php");
 
-if (isset($_POST['login'])) { // <-- proverava da li je dugme "login" kliknuto
+// LOGIN logika
+if (isset($_POST['login'])) {
     $email = $_POST['email'];
     $lozinka = $_POST['lozinka'];
 
@@ -16,7 +15,6 @@ if (isset($_POST['login'])) { // <-- proverava da li je dugme "login" kliknuto
     if ($result->num_rows == 1) {
         $user = $result->fetch_assoc();
         if (password_verify($lozinka, $user['lozinka'])) {
-            // Uspešan login
             $_SESSION['korisnik_id'] = $user['korisnik_id'];
             $_SESSION['ime'] = $user['ime'];
             echo "Uspešno ste prijavljeni!";
@@ -28,9 +26,11 @@ if (isset($_POST['login'])) { // <-- proverava da li je dugme "login" kliknuto
     }
 }
 
-
-
-
+if (isset($_POST["logout"])) {
+  session_destroy();
+  header("Location: ../../index.php");
+  exit();
+}
 
 
 
@@ -57,13 +57,17 @@ if (isset($_POST['login'])) { // <-- proverava da li je dugme "login" kliknuto
   </a>
   <div class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
   <div class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-    <?php if(isset($_SESSION['korisnik_id'])): ?>
-        <!-- Ako je korisnik ulogovan -->
-        <a href="logout.php" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-700">
-            Odjavi se
-        </a>
+  
+  <?php if (isset($_SESSION['korisnik_id'])): ?>
+        <!-- Dugme za logout samo kad je korisnik ulogovan -->
+        <form method="post" style="display:inline;">
+            <button name="logout" type="submit" 
+                class="text-white ml-4 bg-red-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-purple-300 font-medium rounded-lg text-sm px-4 py-2 text-center">
+                Odjavi se
+            </button>
+        </form>
     <?php else: ?>
-        <!-- Ako korisnik nije ulogovan -->
+        <!-- Link za login kad korisnik NIJE ulogovan -->
         <a href="login.php" class="px-4 py-2 bg-blue-700 text-white rounded hover:bg-blue-800">
             Prijavi se
         </a>
