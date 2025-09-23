@@ -26,6 +26,8 @@ if(isset($_POST['login'])){
             $_SESSION['korisnik_id'] = $user['korisnik_id'];
             $_SESSION['ime'] = $user['ime'];
             $_SESSION['uloga'] = $user['uloga'];
+            header("Location: index.php"); // ili gde hoces da ide korisnik posle logout-a
+            exit();
             $poruka = "Uspešno ste prijavljeni!";
         } else {
             $poruka = "Pogresna lozinka";
@@ -52,6 +54,7 @@ if(isset($_POST['login'])){
 <body>
     <!-- NAVIGACIJA -->    
     <nav class="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
+
   <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
   <a href="index.php" class="flex items-center space-x-3 rtl:space-x-reverse">
       <img src="https://www.logodesign.net/logo/line-art-buildings-in-swoosh-1273ld.png?nwm=1&nws=1&industry=hotel&sf=&txt_keyword=All" class="h-8" alt="Hotel Logo">
@@ -120,7 +123,7 @@ if(isset($_POST['login'])){
   </div>
 
   <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-    <form action="index.php" method="POST" class="space-y-6" id="loginForm">
+    <form action="" method="POST" class="space-y-6" id="loginForm">
       <div>
         <label for="email" class="block text-sm/6 font-medium text-black">Email adresa</label>
         <div class="mt-2">
@@ -138,7 +141,11 @@ if(isset($_POST['login'])){
         </div>
       </div>
       <div class="text-sm">
-            <a href="#" class="font-semibold text-indigo-400 hover:text-indigo-300">Zaboravljena lozinka?</a>
+            <a href="#" data-tooltip-target="my-tooltip" class="font-semibold text-indigo-400 hover:text-indigo-300">Zaboravljena lozinka?</a>
+            <div id="my-tooltip" role="tooltip" class="absolute z-10 invisible p-2 text-xs bg-gray-800 text-white rounded-lg shadow-sm">
+      Funkcija ne radi...
+      <div data-popper-arrow></div>
+    </div>
           </div>
       <div>
         <button name="login" type="submit" class="flex w-full justify-center rounded-md bg-indigo-500 px-3 py-1.5 text-sm/6 font-semibold text-white hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500" name="login">Prijavite se</button>
@@ -160,30 +167,22 @@ if(isset($_POST['login'])){
 
 
 <!--FUTER, brza navigacija -->
-<footer class="bg-white rounded-lg shadow-sm m-4">
-    <div class="w-full max-w-screen-xl mx-auto p-4 md:py-8">
-        <div class="sm:flex sm:items-center sm:justify-between">
-            <a href="../../index.php" class="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse">
-                <img src="https://www.logodesign.net/logo/line-art-buildings-in-swoosh-1273ld.png?nwm=1&nws=1&industry=hotel&sf=&txt_keyword=All" class="h-8" alt="Hotel Logo" />
-                <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Flowbite</span>
-            </a>
-            <ul class="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400">
-                <li>
-                    <a href="/stranice/onama/onama.php" class="hover:underline me-4 md:me-6">O nama</a>
-                </li>
-                <li>
-                    <a href="/stranice/kontakt/kontakt.php" class="hover:underline me-4 md:me-6">Kontakt</a>
-                </li>
-                <li>
-                    <a href="/stranice/pravila/pravila.php" class="hover:underline me-4 md:me-6">Pravila</a>
-                </li>
-                
-            </ul>
-        </div>
-        <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
-        <span class="block text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2025 <a href="index.php" class="hover:underline">Hotel rezervacija™</a>. Sva prava zadrzava vlasnik sajta.</span>
-    </div>
+<footer class="bg-white rounded-lg shadow mt-12 p-6 text-center">
+  <div class="max-w-screen-xl mx-auto">
+    <a href="index.php" class="flex items-center justify-center mb-4 space-x-3">
+      <img src="https://www.logodesign.net/logo/line-art-buildings-in-swoosh-1273ld.png" class="h-8" alt="Logo">
+      <span class="text-2xl font-semibold">Hotel rezervacija</span>
+    </a>
+    <ul class="flex justify-center mb-4 text-sm text-gray-500 space-x-6">
+      <li><a href="./onama/onama.php" class="hover:underline">O nama</a></li>
+      <li><a href="./kontakt/kontakt.php" class="hover:underline">Kontakt</a></li>
+      <li><a href="galerija.php" class="hover:underline">Galerija</a></li>
+      <li><a href="./pravila/pravila.php" class="hover:underline">Pravila</a></li>
+    </ul>
+    <span class="text-gray-500 text-sm">© 2025 Hotel rezervacija. Sva prava zadržana.</span>
+  </div>
 </footer>
+
 <script src="../../js/login.js"></script>
 
 </body>

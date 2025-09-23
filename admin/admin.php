@@ -1,5 +1,4 @@
 <?php
-session_start();
 
 // ako nije ulogovan ili nije admin → vrati ga na login
 if (!isset($_SESSION['korisnik_id']) || $_SESSION['uloga'] !== 'admin') {

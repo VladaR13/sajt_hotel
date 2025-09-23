@@ -12,73 +12,73 @@ require("../baza.php");
 </head>
 <body class="bg-gray-100">
 <nav class="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
-  <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-  <a href="index.php" class="flex items-center space-x-3 rtl:space-x-reverse">
-      <img src="https://www.logodesign.net/logo/line-art-buildings-in-swoosh-1273ld.png?nwm=1&nws=1&industry=hotel&sf=&txt_keyword=All" class="h-8" alt="Hotel Logo">
-      <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Hotel rezervacija</span>
-  </a>
-  <div class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-  <div class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-  
-  <?php if (isset($_SESSION['korisnik_id'])): ?>
-        <!-- Dugme za logout samo kad je korisnik ulogovan -->
-        <form method="post" style="display:inline;">
-            <button name="logout" type="submit"
-                class="text-white ml-4 bg-red-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-purple-300 font-medium rounded-lg text-sm px-4 py-2 text-center">
-                Odjavi se
-            </button>
-        </form>
-    <?php else: ?>
-        <!-- Link za login kad korisnik NIJE ulogovan -->
-        <a href="login.php" class="px-4 py-2 bg-blue-700 text-white rounded hover:bg-blue-800">
-            Prijavi se
-        </a>
-    <?php endif; ?>
-</div>
+        <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+            <a href="../index.php" class="flex items-center space-x-3 rtl:space-x-reverse">
+                <img src="https://www.logodesign.net/logo/line-art-buildings-in-swoosh-1273ld.png?nwm=1&nws=1&industry=hotel&sf=&txt_keyword=All" class="h-8" alt="Hotel Logo">
+                <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Hotel rezervacija</span>
+            </a>
+            <div class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+                <?php if (isset($_SESSION['korisnik_id'])): ?>
+                    <a href="logout.php" class="bg-red-500 text-white px-4 py-2 rounded">Odjavi se</a>
+                <?php else: ?>
+                    <a href="login.php" class="bg-blue-500 text-white px-4 py-2 rounded">Prijavi se</a>
+                <?php endif; ?>
+                <button data-collapse-toggle="navbar-sticky" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-sticky" aria-expanded="false">
+                    <span class="sr-only">Otvori meni</span>
+                    <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
+                <ul class="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+                    <li><a href="index.php" aria-current="page" class="block py-2 px-3 text-white bg-blue-700 rounded-sm md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500">Pocetna</a></li>
+                    <li><a href="./onama/onama.php" class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">O nama</a></li>
+                    <li><a href="hoteli.php" class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Hoteli</a></li>
+                    <li><a href="./kontakt/kontakt.php" class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Kontakt</a></li>
+                    <li><a href="galerija.php" class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Galerija</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
-      <button data-collapse-toggle="navbar-sticky" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-sticky" aria-expanded="false">
-        <span class="sr-only">Otvori meni</span>
-        <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/>
-        </svg>
-    </button>
-  </div>
-  <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
-    <ul class="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-      <li>
-        <a href="index.php" class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Pocetna</a>
-      </li>
-      <li>
-        <a href="onama/onama.php" class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">O nama</a>
-      </li>
-      <li>
-        <a href="hoteli.php" class="block py-2 px-3 text-white bg-blue-700 rounded-sm md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500" aria-current="page">Hoteli</a>
-      </li>
-      <li>
-        <a href="kontakt/kontakt.php" class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Kontakt</a>
-      </li>
-      <li><a href="galerija.php" class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Galerija</a></li>
-    </ul>
-  </div>
-  </div>
-</nav>
-<div class="container mx-auto mt-10 p-2">
-    <h1 class="text-2xl font-bold mb-6">Lista hotela</h1>
 
+<div class="container mx-auto mt-20 p-2">
+    <h1 class="text-5xl font-bold mb-6 text-center">Lista hotela</h1>
+    <hr class="h-px my-8 bg-gray-500 border-0 dark:bg-gray-900">
     <?php if(isset($_SESSION['uloga']) && $_SESSION['uloga'] === 'admin'): ?>
         <a href="dodaj_hotel.php" class="bg-blue-600 text-white px-4 py-2 rounded mb-4 inline-block">Dodaj Hotel</a>
     <?php endif; ?>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         <?php
-        $result = $conn->query("SELECT * FROM hoteli ORDER BY naziv ASC");
+        // SQL – hotel + najniža cena sobe (ako postoji)
+        $sql = "SELECT h.hotel_id, h.naziv, h.lokacija, h.opis, h.zvezdice, h.slika,
+                       MIN(s.cena) AS min_cena
+                FROM hoteli h
+                LEFT JOIN soba s ON h.hotel_id = s.hotel_id
+                GROUP BY h.hotel_id, h.naziv, h.lokacija, h.opis, h.zvezdice, h.slika
+                ORDER BY h.naziv ASC";
+
+        $result = $conn->query($sql);
+
         while($hotel = $result->fetch_assoc()):
         ?>
         <div class="bg-white rounded shadow overflow-hidden">
-            <img src="../uploads/<?= htmlspecialchars($hotel['slika']) ?>" alt="<?= htmlspecialchars($hotel['naziv']) ?>" class="w-full h-48 object-cover">
+            <img src="../uploads/<?= htmlspecialchars($hotel['slika']) ?>" 
+                 alt="<?= htmlspecialchars($hotel['naziv']) ?>" 
+                 class="w-full h-48 object-cover">
             <div class="p-4">
                 <h2 class="text-xl font-semibold"><?= htmlspecialchars($hotel['naziv']) ?></h2>
-                <p><?= htmlspecialchars($hotel['lokacija']) ?> | <?= $hotel['zvezdice'] ?> ★ | <?= $hotel['cena'] ?> RSD/noć</p>
+                <p>
+                    <?= htmlspecialchars($hotel['lokacija']) ?> | 
+                    <?= $hotel['zvezdice'] ?> ★ | 
+                    <?php if ($hotel['min_cena']): ?>
+                        <?= $hotel['min_cena'] ?> RSD/noć
+                    <?php else: ?>
+                        <span class="text-gray-500">Nema soba</span>
+                    <?php endif; ?>
+                </p>
                 <p class="mt-2"><?= htmlspecialchars($hotel['opis']) ?></p>
 
                 <div class="mt-4 flex space-x-2">
@@ -94,7 +94,7 @@ require("../baza.php");
         <?php endwhile; ?>
     </div>
 </div>
-<!-- FUTER -->
+
 <footer class="bg-white rounded-lg shadow mt-12 p-6 text-center">
   <div class="max-w-screen-xl mx-auto">
     <a href="index.php" class="flex items-center justify-center mb-4 space-x-3">
@@ -110,8 +110,5 @@ require("../baza.php");
     <span class="text-gray-500 text-sm">© 2025 Hotel rezervacija. Sva prava zadržana.</span>
   </div>
 </footer>
-
-
-
 </body>
 </html>

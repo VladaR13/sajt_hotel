@@ -1,45 +1,37 @@
 <?php
-session_start();
-require("../baza.php");
-
-// Provera admina
-if(!isset($_SESSION['korisnik_id']) || $_SESSION['uloga'] != 'admin'){
-    header("Location: ../login.php");
-    exit();
-}
+// Pretpostavljamo da postoji $_SESSION['role'] ili $_SESSION['korisnik_tip']
+// gde je 'admin' za administratora
+$isAdmin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
 ?>
-
-<!DOCTYPE html>
-<html lang="sr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-</head>
-<body class="bg-gray-100">
-
-<nav class="bg-white shadow p-4 flex justify-between items-center">
-    <h1 class="text-xl font-bold">Admin Dashboard</h1>
-    <form method="post" action="../stranice/logout.php">
-        <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">Odjavi se</button>
-    </form>
-</nav>
-
-<div class="container mx-auto mt-10">
-    <h2 class="text-2xl font-semibold mb-6">Dobrodošli, <?php echo $_SESSION['ime']; ?>!</h2>
-
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <a href="dodaj_hotel.php" class="block p-6 bg-blue-500 text-white rounded shadow hover:bg-blue-600 text-center">
-            <h3 class="text-xl font-bold mb-2">Dodaj Hotel</h3>
-            <p>Unesite novi hotel u bazu.</p>
+<nav class="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
+    <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+        <a href="../index.php" class="flex items-center space-x-3 rtl:space-x-reverse">
+            <img src="https://www.logodesign.net/logo/line-art-buildings-in-swoosh-1273ld.png?nwm=1&nws=1&industry=hotel&sf=&txt_keyword=All" class="h-8" alt="Hotel Logo">
+            <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Hotel rezervacija</span>
         </a>
-        <a href="pregled_hotela.php" class="block p-6 bg-green-500 text-white rounded shadow hover:bg-green-600 text-center">
-            <h3 class="text-xl font-bold mb-2">Pregled Hotela</h3>
-            <p>Pogledajte i uređujte postojeće hotele.</p>
-        </a>
+        <div class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+            <?php if (isset($_SESSION['korisnik_id'])): ?>
+                <a href="logout.php" class="bg-red-500 text-white px-4 py-2 rounded">Odjavi se</a>
+            <?php else: ?>
+                <a href="login.php" class="bg-blue-500 text-white px-4 py-2 rounded">Prijavi se</a>
+            <?php endif; ?>
+            <button data-collapse-toggle="navbar-sticky" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-sticky" aria-expanded="false">
+                <span class="sr-only">Otvori meni</span>
+                <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/>
+                </svg>
+            </button>
+        </div>
+        <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
+            <ul class="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+                <li><a href="index.php" aria-current="page" class="block py-2 px-3 text-white bg-blue-700 rounded-sm md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500">Pocetna</a></li>
+                <li><a href="hoteli.php" class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 md:dark:hover:bg-transparent">Hoteli</a></li>
+                
+                <?php if ($isAdmin): ?>
+                    <li><a href="odobrenje.php" class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-green-600 md:p-0 dark:text-white dark:hover:bg-gray-700 md:dark:hover:bg-transparent">Rezervacije</a></li>
+                    <li><a href="korisnici.php" class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-600 md:p-0 dark:text-white dark:hover:bg-gray-700 md:dark:hover:bg-transparent">Korisnici</a></li>
+                <?php endif; ?>
+            </ul>
+        </div>
     </div>
-</div>
-
-</body>
-</html>
+</nav>

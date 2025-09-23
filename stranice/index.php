@@ -54,11 +54,20 @@ require("../baza.php"); // konekcija na bazu
   </div>
 
   <!-- Prikaz hotela -->
-  <h2 class="text-2xl font-bold mb-6">Naši hoteli</h2>
+  <h2 class="text-3xl font-bold mb-6">Naši hoteli</h2>
+  <hr class="h-px my-8 bg-gray-500 border-0 dark:bg-gray-900">
   <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
     <?php
-    $hoteli = $conn->query("SELECT * FROM hoteli");
-    while($hotel = $hoteli->fetch_assoc()):
+  $sql = "SELECT h.hotel_id, h.naziv, h.lokacija, h.opis, h.zvezdice, h.slika,
+  MIN(s.cena) AS min_cena
+FROM hoteli h
+LEFT JOIN soba s ON h.hotel_id = s.hotel_id
+GROUP BY h.hotel_id, h.naziv, h.lokacija, h.opis, h.zvezdice, h.slika
+ORDER BY h.naziv ASC";
+
+$result = $conn->query($sql);
+
+while($hotel = $result->fetch_assoc()):
     ?>
       <div class="bg-white rounded shadow-md overflow-hidden flex flex-col">
         <img src="../uploads/<?php echo htmlspecialchars($hotel['slika']); ?>" alt="<?php echo htmlspecialchars($hotel['naziv']); ?>" class="h-48 w-full object-cover">
@@ -67,7 +76,7 @@ require("../baza.php"); // konekcija na bazu
             <h3 class="text-lg font-semibold mb-2"><?php echo htmlspecialchars($hotel['naziv']); ?></h3>
             <p class="text-gray-600 mb-2">Lokacija: <?php echo htmlspecialchars($hotel['lokacija']); ?></p>
             <p class="text-yellow-500 mb-2">Zvezdice: <?php echo $hotel['zvezdice']; ?></p>
-            <p class="text-gray-800 font-bold mb-4">Cena: <?php echo $hotel['cena']; ?> RSD / noć</p>
+            <p class="text-gray-800 font-bold mb-4">Cena: <?php echo $hotel['min_cena']; ?> RSD / noć</p>
           </div>
           <a href="rezervacija.php?hotel_id=<?php echo $hotel['hotel_id']; ?>" class="bg-blue-600 hover:bg-blue-700 text-white text-center py-2 rounded">Rezerviši</a>
         </div>

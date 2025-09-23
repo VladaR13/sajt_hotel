@@ -50,12 +50,13 @@ $admin = isset($_SESSION['uloga']) && $_SESSION['uloga'] === 'admin';
 
 <!-- SADRZAJ -->
 <div class="container mx-auto mt-28 px-4">
-
+    <h1 class="text-5xl font-bold mb-6 text-center">GALERIJA</h1>
+    <hr class="h-px my-8 bg-gray-500 border-0 dark:bg-gray-900">
     <?php if($admin): ?>
         <!-- ADMIN PANEL: Upload slike -->
         <div class="mb-8 p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md">
             <h2 class="text-2xl font-bold mb-4 text-blue-700 dark:text-blue-400">Dodaj novu sliku</h2>
-            <form action="upload_slika.php" method="post" enctype="multipart/form-data" class="space-y-3">
+            <form action="../admin/upload_slika.php" method="post" enctype="multipart/form-data" class="space-y-3">
                 <input type="text" name="naziv" placeholder="Naziv slike" class="border rounded w-full py-2 px-3 dark:bg-gray-700 dark:border-gray-600 dark:text-white" required>
                 <input type="file" name="file" class="border rounded w-full py-2 px-3 dark:bg-gray-700 dark:border-gray-600 dark:text-white" required>
                 <button type="submit" name="upload" class="bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded">Postavi sliku</button>
@@ -70,10 +71,10 @@ $admin = isset($_SESSION['uloga']) && $_SESSION['uloga'] === 'admin';
         while($row = $result->fetch_assoc()):
         ?>
             <div class="bg-white dark:bg-gray-800 border rounded-lg overflow-hidden shadow-md">
-                <img src="../../uploads/<?php echo htmlspecialchars($row['slika']); ?>" alt="<?php echo htmlspecialchars($row['naziv']); ?>" class="w-full h-48 object-cover">
+                <img src="../uploads/galerija/<?php echo htmlspecialchars($row['slika']); ?>" alt="<?php echo htmlspecialchars($row['naziv']); ?>" class="w-full h-48 object-cover">
                 <div class="p-3 text-center font-medium dark:text-white"><?php echo htmlspecialchars($row['naziv']); ?></div>
                 <?php if($admin): ?>
-                    <form action="obrisi_slika.php" method="post" class="text-center mb-2">
+                    <form action="../admin/obrisi_slika.php" method="post" class="text-center mb-2">
                         <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
                         <button type="submit" class="bg-red-600 hover:bg-red-700 text-white px-2 py-1 rounded">Obriši</button>
                     </form>
