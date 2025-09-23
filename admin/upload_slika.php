@@ -1,6 +1,6 @@
 <?php
 session_start();
-require("../../baza.php");
+require("../baza.php");
 
 if(isset($_POST['upload']) && isset($_SESSION['admin']) && $_SESSION['admin']==1){
     $naziv = $_POST['naziv'];

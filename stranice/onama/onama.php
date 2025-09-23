@@ -71,23 +71,23 @@ session_start();
         </section>
     </div>
 
-    <!-- FUTER -->
-    <footer class="bg-white rounded-lg shadow-sm dark:bg-gray-900 mt-8">
-        <div class="w-full max-w-screen-xl mx-auto p-4 md:py-8">
-            <div class="sm:flex sm:items-center sm:justify-between">
-                <a href="../index.php" class="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse">
-                    <img src="https://www.logodesign.net/logo/line-art-buildings-in-swoosh-1273ld.png?nwm=1&nws=1&industry=hotel&sf=&txt_keyword=All" class="h-8" alt="Hotel Logo" />
-                    <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Hotel rezervacija</span>
-                </a>
-                <ul class="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400">
-                    <li><a href="onama.php" class="hover:underline me-4 md:me-6">O nama</a></li>
-                    <li><a href="../kontakt/kontakt.php" class="hover:underline me-4 md:me-6">Kontakt</a></li>
-                    <li><a href="../pravila/pravila.php" class="hover:underline me-4 md:me-6">Pravila</a></li>
-                </ul>
-            </div>
-            <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
-            <span class="block text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2025 <a href="../index.php" class="hover:underline">Hotel rezervacija™</a>. Sva prava zadrzava vlasnik sajta.</span>
-        </div>
-    </footer>
+   <!-- FUTER -->
+<footer class="bg-white rounded-lg shadow mt-12 p-6 text-center">
+  <div class="max-w-screen-xl mx-auto">
+    <a href="index.php" class="flex items-center justify-center mb-4 space-x-3">
+      <img src="https://www.logodesign.net/logo/line-art-buildings-in-swoosh-1273ld.png" class="h-8" alt="Logo">
+      <span class="text-2xl font-semibold">Hotel rezervacija</span>
+    </a>
+    <ul class="flex justify-center mb-4 text-sm text-gray-500 space-x-6">
+      <li><a href="./onama.php" class="hover:underline">O nama</a></li>
+      <li><a href="../kontakt/kontakt.php" class="hover:underline">Kontakt</a></li>
+      <li><a href="../galerija.php" class="hover:underline">Galerija</a></li>
+      <li><a href="../pravila/pravila.php" class="hover:underline">Pravila</a></li>
+    </ul>
+    <span class="text-gray-500 text-sm">© 2025 Hotel rezervacija. Sva prava zadržana.</span>
+  </div>
+</footer>
+
+
 </body>
 </html>
