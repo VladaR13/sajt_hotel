@@ -25,9 +25,9 @@ $admin = isset($_SESSION['uloga']) && $_SESSION['uloga'] === 'admin';
             </a>
             <div class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
                 <?php if (isset($_SESSION['korisnik_id'])): ?>
-                    <a href="logout.php" class="bg-red-500 text-white px-4 py-2 rounded">Odjavi se</a>
+                    <a href="../logout.php" class="bg-red-500 text-white px-4 py-2 rounded">Odjavi se</a>
                 <?php else: ?>
-                    <a href="login.php" class="bg-blue-500 text-white px-4 py-2 rounded">Prijavi se</a>
+                    <a href="../login.php" class="bg-blue-500 text-white px-4 py-2 rounded">Prijavi se</a>
                 <?php endif; ?>
                 <button data-collapse-toggle="navbar-sticky" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-sticky" aria-expanded="false">
                     <span class="sr-only">Otvori meni</span>
@@ -44,7 +44,7 @@ $admin = isset($_SESSION['uloga']) && $_SESSION['uloga'] === 'admin';
                     <li><a href="../kontakt/kontakt.php" class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Kontakt</a></li>
                     <li><a href="../galerija.php" class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Galerija</a></li>
                     <?php if (isset($_SESSION['uloga']) && $_SESSION['uloga'] === 'admin'): ?>
-        <li><a href="../../admin/odobrenje.php" class="block py-2 px-3 text-white bg-red-600 rounded-sm hover:bg-red-700 md:bg-transparent md:text-red-600 md:p-0 md:dark:text-red-400">Odobrenje</a></li>
+        <li><a href="../../admin/odobrenje.php" class="block py-2 px-3 text-white bg-red-600 rounded-sm hover:bg-red-700 md:bg-transparent md:text-red-600 md:p-0 md:dark:text-red-400">Admin panela</a></li>
     <?php endif; ?>
     <?php if (isset($_SESSION['uloga']) && $_SESSION['uloga'] === 'korisnik'): ?>
         <li><a href="../moje_rezervacije.php" class="block py-2 px-3 text-white bg-blue-700 rounded-sm md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500">Moje rezervacije</a></li>

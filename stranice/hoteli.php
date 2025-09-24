@@ -1,6 +1,43 @@
 <?php
 session_start();
 require("../baza.php");
+
+// Preuzimanje kriterijuma i smera sortiranja iz GET parametara
+$sort = isset($_GET['sort']) ? $_GET['sort'] : 'naziv';
+$order = isset($_GET['order']) ? $_GET['order'] : 'ASC';
+
+// Validacija
+$allowedSort = ['naziv', 'zvezdice', 'min_cena'];
+$allowedOrder = ['ASC', 'DESC'];
+
+if (!in_array($sort, $allowedSort)) $sort = 'naziv';
+if (!in_array($order, $allowedOrder)) $order = 'ASC';
+
+// SQL sa dinamičkim ORDER BY
+$sql = "SELECT h.hotel_id, h.naziv, h.lokacija, h.opis, h.zvezdice, h.slika,
+               MIN(s.cena) AS min_cena
+        FROM hoteli h
+        LEFT JOIN soba s ON h.hotel_id = s.hotel_id
+        GROUP BY h.hotel_id, h.naziv, h.lokacija, h.opis, h.zvezdice, h.slika
+        ORDER BY ";
+
+switch($sort) {
+    case 'zvezdice':
+        $sql .= "h.zvezdice $order";
+        break;
+    case 'min_cena':
+        $sql .= "min_cena $order";
+        break;
+    default:
+        $sql .= "h.naziv $order";
+}
+
+$result = $conn->query($sql);
+
+// Funkcija za invertovanje smera
+function invertOrder($currentOrder) {
+    return $currentOrder === 'ASC' ? 'DESC' : 'ASC';
+}
 ?>
 
 <!DOCTYPE html>
@@ -11,6 +48,8 @@ require("../baza.php");
 <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body class="bg-gray-100">
+
+<!-- NAVIGACIJA -->
 <nav class="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
         <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
             <a href="./index.php" class="flex items-center space-x-3 rtl:space-x-reverse">
@@ -32,44 +71,48 @@ require("../baza.php");
             </div>
             <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
                 <ul class="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-                    <li><a href="index.php" aria-current="page" class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Pocetna</a></li>
+                    <li><a href="index.php" class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Početna</a></li>
                     <li><a href="./onama/onama.php" class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">O nama</a></li>
-                    <li><a href="hoteli.php" class="block py-2 px-3 text-white bg-blue-700 rounded-sm md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500">Hoteli</a></li>
+                    <li><a href="hoteli.php" aria-current="page" class="block py-2 px-3 text-white bg-blue-700 rounded-sm md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500">Hoteli</a></li>
                     <li><a href="./kontakt/kontakt.php" class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Kontakt</a></li>
                     <li><a href="galerija.php" class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Galerija</a></li>
                     <?php if (isset($_SESSION['uloga']) && $_SESSION['uloga'] === 'admin'): ?>
-        <li><a href="../admin/odobrenje.php" class="block py-2 px-3 text-white bg-red-600 rounded-sm hover:bg-red-700 md:bg-transparent md:text-red-600 md:p-0 md:dark:text-red-400">Odobrenje</a></li>
+        <li><a href="../admin/odobrenje.php" class="block py-2 px-3 text-white bg-red-600 rounded-sm hover:bg-red-700 md:bg-transparent md:text-red-600 md:p-0 md:dark:text-red-400">Admin panela</a></li>
     <?php endif; ?>
     <?php if (isset($_SESSION['uloga']) && $_SESSION['uloga'] === 'korisnik'): ?>
-        <li><a href="moje_rezervacije.php" class="block py-2 px-3 text-white bg-blue-700 rounded-sm md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500">Moje rezervacije</a></li>
+        <li><a href="moje_rezervacije.php" class="block py-2 px-3 text-white bg-red-600 rounded-sm hover:bg-red-700 md:bg-transparent md:text-red-600 md:p-0 md:dark:text-red-400">Moje rezervacije</a></li>
     <?php endif; ?>
                 </ul>
             </div>
+
         </div>
     </nav>
 
-
 <div class="container mx-auto mt-20 p-2">
     <h1 class="text-5xl font-bold mb-6 text-center">Lista hotela</h1>
-    <hr class="h-px my-8 bg-gray-500 border-0 dark:bg-gray-900">
+
+    <!-- Dugmad za sortiranje -->
+    <div class="mb-4 flex justify-center space-x-2">
+        <span class="self-center">Sortiraj po:</span>
+        <?php 
+        foreach(['naziv'=>'Naziv', 'zvezdice'=>'Zvezdice', 'min_cena'=>'Najniža cena'] as $key => $label):
+            $newOrder = $sort === $key ? invertOrder($order) : 'ASC';
+            $arrow = '';
+            if ($sort === $key) $arrow = $order === 'ASC' ? '↑' : '↓';
+        ?>
+            <a href="?sort=<?= $key ?>&order=<?= $newOrder ?>" 
+               class="px-3 py-1 rounded bg-gray-200 hover:bg-gray-300 <?= $sort === $key ? 'font-bold bg-gray-400' : '' ?>">
+               <?= $label ?> <?= $arrow ?>
+            </a>
+        <?php endforeach; ?>
+    </div>
+
     <?php if(isset($_SESSION['uloga']) && $_SESSION['uloga'] === 'admin'): ?>
         <a href="dodaj_hotel.php" class="bg-blue-600 text-white px-4 py-2 rounded mb-4 inline-block">Dodaj Hotel</a>
     <?php endif; ?>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        <?php
-        // SQL – hotel + najniža cena sobe (ako postoji)
-        $sql = "SELECT h.hotel_id, h.naziv, h.lokacija, h.opis, h.zvezdice, h.slika,
-                       MIN(s.cena) AS min_cena
-                FROM hoteli h
-                LEFT JOIN soba s ON h.hotel_id = s.hotel_id
-                GROUP BY h.hotel_id, h.naziv, h.lokacija, h.opis, h.zvezdice, h.slika
-                ORDER BY h.naziv ASC";
-
-        $result = $conn->query($sql);
-
-        while($hotel = $result->fetch_assoc()):
-        ?>
+        <?php while($hotel = $result->fetch_assoc()): ?>
         <div class="bg-white rounded shadow overflow-hidden">
             <img src="../uploads/<?= htmlspecialchars($hotel['slika']) ?>" 
                  alt="<?= htmlspecialchars($hotel['naziv']) ?>" 
@@ -101,6 +144,7 @@ require("../baza.php");
     </div>
 </div>
 
+<!-- FUTER -->
 <footer class="bg-white rounded-lg shadow mt-12 p-6 text-center">
   <div class="max-w-screen-xl mx-auto">
     <a href="index.php" class="flex items-center justify-center mb-4 space-x-3">
