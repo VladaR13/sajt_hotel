@@ -56,7 +56,7 @@ if(isset($_POST['login'])){
     <nav class="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
 
   <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-  <a href="index.php" class="flex items-center space-x-3 rtl:space-x-reverse">
+  <a href="./index.php" class="flex items-center space-x-3 rtl:space-x-reverse">
       <img src="https://www.logodesign.net/logo/line-art-buildings-in-swoosh-1273ld.png?nwm=1&nws=1&industry=hotel&sf=&txt_keyword=All" class="h-8" alt="Hotel Logo">
       <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Hotel rezervacija</span>
   </a>
@@ -89,7 +89,7 @@ if(isset($_POST['login'])){
   <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
     <ul class="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
       <li>
-        <a href="index.php" class="block py-2 px-3 text-white bg-blue-700 rounded-sm md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500" aria-current="page">Pocetna</a>
+        <a href="index.php" class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Početna</a>
       </li>
       <li>
         <a href="onama/onama.php" class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">O nama</a>
@@ -116,45 +116,56 @@ if(isset($_POST['login'])){
   <body class="h-full">
   ```
 -->
-<div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
-  <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-    <img src="https://www.logodesign.net/logo/line-art-buildings-in-swoosh-1273ld.png?nwm=1&nws=1&industry=hotel&sf=&txt_keyword=All" alt="VR hoteli" class="mx-auto h-10 w-auto" />
-    <h2 class="mt-10 text-center text-2xl/9 font-bold tracking-tight text-black">Prijava</h2>
+  <div class="flex min-h-full flex-col justify-center px-6 lg:px-8">
+  <div class="sm:mx-auto sm:w-full sm:max-w-md">
+    <img src="https://www.logodesign.net/logo/line-art-buildings-in-swoosh-1273ld.png?nwm=1&nws=1&industry=hotel&sf=&txt_keyword=All" alt="VR hoteli" class="mx-auto h-12 w-auto" />
+    <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">Prijava</h2>
+    <p class="mt-2 text-center text-sm text-gray-600">
+      Prijavite se na svoj nalog
+    </p>
   </div>
 
-  <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-    <form action="" method="POST" class="space-y-6" id="loginForm">
-      <div>
-        <label for="email" class="block text-sm/6 font-medium text-black">Email adresa</label>
-        <div class="mt-2">
-          <input id="email" type="email" name="email" required autocomplete="email" class="appearance-none border rounded w-full py-2 px-3 text-grey-darker" />
-        </div>
-      </div>
-
-      <div>
-        <div class="flex items-center justify-between">
-          <label for="password" class="block text-sm/6 font-medium text-black">Lozinka</label>
-          
-        </div>
-        <div class="mt-2">
-          <input id="password" type="password" name="lozinka" required autocomplete="current-password" class="appearance-none border rounded w-full py-2 px-3 text-grey-darker" />
-        </div>
-      </div>
-      <div class="text-sm">
-            <a href="#" data-tooltip-target="my-tooltip" class="font-semibold text-indigo-400 hover:text-indigo-300">Zaboravljena lozinka?</a>
-            <div id="my-tooltip" role="tooltip" class="absolute z-10 invisible p-2 text-xs bg-gray-800 text-white rounded-lg shadow-sm">
-      Funkcija ne radi...
-      <div data-popper-arrow></div>
-    </div>
+  <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+    <div class="bg-white py-8 px-6 shadow rounded-lg sm:px-10">
+      <form action="" method="POST" class="space-y-6" id="loginForm">
+        <div>
+          <label for="email" class="block text-sm font-medium text-gray-700">Email adresa</label>
+          <div class="mt-1">
+            <input id="email" name="email" type="email" required autocomplete="email"
+              class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
           </div>
-      <div>
-        <button name="login" type="submit" class="flex w-full justify-center rounded-md bg-indigo-500 px-3 py-1.5 text-sm/6 font-semibold text-white hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500" name="login">Prijavite se</button>
-      </div>
-      <?php if (!empty($poruka)): ?>
-    <div class="mt-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
-        <?php echo $poruka; ?>
+        </div>
+
+        <div>
+          <label for="password" class="block text-sm font-medium text-gray-700">Lozinka</label>
+          <div class="mt-1">
+            <input id="password" name="lozinka" type="password" required autocomplete="current-password"
+              class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between">
+          <div class="text-sm">
+            <a href="register.php" class="font-medium text-indigo-600 hover:text-indigo-500">Nemate nalog? Registrujte se!</a>
+          </div>
+        </div>
+
+        <div>
+          <button type="submit" name="login"
+            class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            Prijavite se
+          </button>
+        </div>
+
+        <?php if (!empty($poruka)): ?>
+          <div class="mt-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+            <?= $poruka ?>
+          </div>
+        <?php endif; ?>
+      </form>
     </div>
-<?php endif; ?>
+  </div>
+</div>
 
     </form>
   </div>

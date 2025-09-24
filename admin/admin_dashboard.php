@@ -3,7 +3,6 @@
 // gde je 'admin' za administratora
 $isAdmin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
 ?>
-<nav class="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
     <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <a href="../index.php" class="flex items-center space-x-3 rtl:space-x-reverse">
             <img src="https://www.logodesign.net/logo/line-art-buildings-in-swoosh-1273ld.png?nwm=1&nws=1&industry=hotel&sf=&txt_keyword=All" class="h-8" alt="Hotel Logo">
@@ -34,4 +33,3 @@ $isAdmin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
             </ul>
         </div>
     </div>
-</nav>

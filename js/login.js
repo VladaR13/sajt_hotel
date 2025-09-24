@@ -1,4 +1,4 @@
-document.querySelector('#loginForm').addEventListener('submit', e=>{
+document.querySelector('#loginForm').addEventListener('submit', e=>{ //pokusavao nesto sa ajax-om ali u ovom slucaju nije ni potreban...
     e.preventDefault();
     let form = new FormData(e.target);
     fetch('login.php',{

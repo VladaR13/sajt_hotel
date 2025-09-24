@@ -7,10 +7,13 @@ if(!isset($_SESSION['uloga']) || $_SESSION['uloga'] != 'admin'){
     exit();
 }
 
-if(isset($_GET['hotel_id'])){
+if(isset($_GET['hotel_id']) && isset($_GET['soba_id'])){
     $hotel_id = intval($_GET['hotel_id']);
-    $conn->query("DELETE FROM hoteli WHERE hotel_id=$hotel_id");
+    $soba_id = intval($_GET['soba_id']);
+    
+    $conn->query("DELETE FROM soba WHERE soba_id=$soba_id AND hotel_id=$hotel_id");
 }
+
 
 header("Location: hoteli.php");
 exit();

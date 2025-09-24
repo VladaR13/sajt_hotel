@@ -8,7 +8,7 @@
     <title>test</title>
 </head>
 <body>
-<div class="bg-[url('img/1.jpg')] h-screen"></div>
+<div class="bg-[url('img/1.jpg')] h-screen"></div> <!-- Testirao sliku na novijoj verziji tailwinda, stariji nije radio-->
 
 </body>
 </html>
